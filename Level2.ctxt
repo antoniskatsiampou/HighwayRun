@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Level2
+comment1.params=
+comment1.target=Level2()
+comment2.params=
+comment2.target=int\ getLeftBoundary()
+comment3.params=
+comment3.target=int\ getRightBoundary()
+numComments=4

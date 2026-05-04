@@ -1,0 +1,4 @@
+*.class
+*.aylee
+*.backup
+/standalone/
