@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=TrafficCar
+comment1.params=isOppositeLane
+comment1.target=TrafficCar(boolean)
+comment2.params=
+comment2.target=void\ act()
+numComments=3

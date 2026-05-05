@@ -3,34 +3,61 @@ import greenfoot.*;
 public class PlayerCar extends Actor
 {
     
-    //δηλωση ταχυτητας στροφης
-    public int speed = 5;
+    
+    public PlayerCar()
+    {
+        // Σμίκρυνση της εικόνας του παίκτη στο 75%
+        GreenfootImage img = getImage();
+        img.scale(img.getWidth() * 75 / 100, img.getHeight() * 75 / 100);
+        setImage(img);
+    }
     
     public void act()
     {
         checkKeys(); //ελεγχος των πληκτρων που πατιουνται απο τον χρηστη 
         checkBoundaries(); // ελεγχος οριων ωστε να μην βγαινει απο την ασφαλτο
+        checkCollision();
     }
     
-    // λογικη συμπεριφορας αυτοκινητου
-    public void checkKeys(){
-        
-        if (Greenfoot.isKeyDown("left"))
-        {
-            setLocation(getX() - speed, getY());
+   // ταχυτητα για τις στροφες
+    public int speed = 5; 
+    
+    // ταχυτητα 
+    public int verticalSpeed = 3; 
+
+    private void checkKeys()
+    {
+        int currentX = getX();
+        int currentY = getY();
+
+        // στροφες δεξια-αριστερα
+        if (Greenfoot.isKeyDown("left")) {
+            currentX -= speed;
         }
-        
-        
-        if (Greenfoot.isKeyDown("right"))
-        {
-            setLocation(getX() + speed, getY());
+        else if (Greenfoot.isKeyDown("right")) {
+            currentX += speed;
         }
-        
+
+        // γκαζι
+        if (Greenfoot.isKeyDown("up")) {
+            if (currentY > 300) { 
+                currentY -= verticalSpeed; 
+            }
+        }
+        //φρενο
+        else if (Greenfoot.isKeyDown("down")) {
+            if (currentY < 550) { 
+                currentY += verticalSpeed; 
+            }
+        }
+
+        //τελικη θεση
+        setLocation(currentX, currentY);
     }
     
     private void checkBoundaries()
 {
-    // Παίρνουμε μια αναφορά στον τρέχοντα κόσμο
+    //αναφορα στον τρεχοντα κοσμο
     World world = getWorld(); 
     int leftLimit = 0;
     int rightLimit = 0;
@@ -54,4 +81,30 @@ public class PlayerCar extends Actor
         setLocation(getX() - 10, getY());
     }
 }
+
+private void checkCollision()
+    {
+        // εχει μπει καποιο αμαξι στο κουτι των .png εικονων;
+        Actor hitCar = getOneIntersectingObject(TrafficCar.class);
+        
+        // αν καποιο ακουμπαει
+        if (hitCar != null) 
+        {
+            // μετραει το ποσο απεχουν τα κεντρα των εικονων
+            int distanceX = Math.abs(getX() - hitCar.getX());
+            int distanceY = Math.abs(getY() - hitCar.getY());
+            
+            
+            if (distanceX < 70 && distanceY < 145) 
+            {
+                setRotation(45); 
+                
+                Level1 world = (Level1)getWorld();
+                int finalScore = world.score;
+                
+                world.showText("💥 BOOM! GAME OVER 💥", 420, 325);
+                Greenfoot.stop(); 
+            }
+        }
+    }
 }
