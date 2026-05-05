@@ -1,12 +1,16 @@
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all they need to know. The comments should usually include at least:
-------------------------------------------------------------------------
+Highway Run - Greenfoot Game
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+Ένα 2D top-down racing game αναπτυγμένο στο περιβάλλον Greenfoot.
+
+------------------------------------------------------------------------------------------------------------------------
+
+Ο παίκτης οδηγεί ένα αυτοκίνητο σε έναν δρόμο ταχείας κυκλοφορίας, αποφεύγοντας εμπόδια και προσπαθώντας να επιτύχει το υψηλότερο δυνατό σκορ. Το παιχνίδι διαθέτει 2 επίπεδα αυξανόμενης δυσκολίας.
+
+------------------------------------------------------------------------------------------------------------------------
+
+Γλώσσα: Java (Greenfoot API).
+
+Object-Oriented Design: Χρήση κληρονομικότητας, ενθυλάκωσης (encapsulation) και πολυμορφισμού για τη διαχείριση των επιπέδων.
+
+Git: Version control για τη διαχείριση του κώδικα και των assets.
+
