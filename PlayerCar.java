@@ -6,7 +6,7 @@ public class PlayerCar extends Actor
     
     public PlayerCar()
     {
-        // Σμίκρυνση της εικόνας του παίκτη στο 75%
+        // σμικρυνση της εικονας του παικτη στο 75%
         GreenfootImage img = getImage();
         img.scale(img.getWidth() * 75 / 100, img.getHeight() * 75 / 100);
         setImage(img);
@@ -14,7 +14,7 @@ public class PlayerCar extends Actor
     
     public void act()
     {
-        checkKeys(); //ελεγχος των πληκτρων που πατιουνται απο τον χρηστη 
+        checkKeys(); // ελεγχος των πληκτρων που πατιουνται απο τον χρηστη 
         checkBoundaries(); // ελεγχος οριων ωστε να μην βγαινει απο την ασφαλτο
         checkCollision();
     }
@@ -44,45 +44,45 @@ public class PlayerCar extends Actor
                 currentY -= verticalSpeed; 
             }
         }
-        //φρενο
+        // φρενο
         else if (Greenfoot.isKeyDown("down")) {
             if (currentY < 550) { 
                 currentY += verticalSpeed; 
             }
         }
 
-        //τελικη θεση
+        // τελικη θεση
         setLocation(currentX, currentY);
     }
     
     private void checkBoundaries()
-{
-    //αναφορα στον τρεχοντα κοσμο
-    World world = getWorld(); 
-    int leftLimit = 0;
-    int rightLimit = 0;
+    {
+        // αναφορα στον τρεχοντα κοσμο
+        World world = getWorld(); 
+        int leftLimit = 0;
+        int rightLimit = 0;
 
-    // ελεγχος σε ποιο level βρισκεται
-    if (world instanceof Level1){
-        leftLimit = ((Level1)world).getLeftBoundary();
-        rightLimit = ((Level1)world).getRightBoundary();
-    } 
-    else if (world instanceof Level2) {
-        leftLimit = ((Level2)world).getLeftBoundary();
-        rightLimit = ((Level2)world).getRightBoundary();
+        // ελεγχος σε ποιο level βρισκεται
+        if (world instanceof Level1){
+            leftLimit = ((Level1)world).getLeftBoundary();
+            rightLimit = ((Level1)world).getRightBoundary();
+        } 
+        else if (world instanceof Level2) {
+            leftLimit = ((Level2)world).getLeftBoundary();
+            rightLimit = ((Level2)world).getRightBoundary();
+        }
+
+        // εφαρμογη των οριων
+        if (getX() <= leftLimit){
+            setLocation(getX() + 10, getY());
+        }
+        
+        if (getX() >= rightLimit){
+            setLocation(getX() - 10, getY());
+        }
     }
 
-    // εφαρμογη των οριων
-    if (getX() <= leftLimit){
-        setLocation(getX() + 10, getY());
-    }
-    
-    if (getX() >= rightLimit){
-        setLocation(getX() - 10, getY());
-    }
-}
-
-private void checkCollision()
+    private void checkCollision()
     {
         // εχει μπει καποιο αμαξι στο κουτι των .png εικονων;
         Actor hitCar = getOneIntersectingObject(TrafficCar.class);
@@ -99,10 +99,17 @@ private void checkCollision()
             {
                 setRotation(45); 
                 
-                Level1 world = (Level1)getWorld();
-                int finalScore = world.score;
+                World world = getWorld();
                 
-                world.showText("💥 BOOM! GAME OVER 💥", 420, 325);
+                if (world instanceof Level1) {
+                    Level1 level1 = (Level1)world;
+                    level1.showText("💥 ΜΠΟΥΜ! ΤΕΛΟΣ ΠΑΙΧΝΙΔΙΟΥ💥", 420, 325);
+                }
+                else if (world instanceof Level2) {
+                    Level2 level2 = (Level2)world;
+                    level2.showText("💥 ΜΠΟΥΜ! ΤΕΛΟΣ ΠΑΙΧΝΙΔΙΟΥ 💥", 420, 325);
+                }
+                
                 Greenfoot.stop(); 
             }
         }

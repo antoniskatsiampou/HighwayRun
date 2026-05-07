@@ -44,7 +44,7 @@ public class Level1 extends World
         
         score++;
         
-        showText("Score: " + (score / 10), 80, 30);
+        showText("Σκορ: " + (score / 10), 80, 30);
         
         
         // ενημερωση χρονου
