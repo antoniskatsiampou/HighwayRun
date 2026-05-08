@@ -27,10 +27,10 @@ public class GameOverPanel extends Actor
         // Οδηγιες 
         img.setColor(new Color(100, 255, 100)); // πρασινο
         img.setFont(new Font("Arial", true, false, 28));
-        img.drawString("Πατησε [ R ] για Επανεκκίνηση", 220, 420);
+        img.drawString("Πάτησε [ R ] για Επανεκκίνηση", 220, 420);
         
         img.setColor(new Color(255, 100, 100)); // κοκκινο
-        img.drawString("Πατησε [ Esc ] για επιστροφή στο μενού", 160, 480);
+        img.drawString("Πάτησε [ Esc ] για επιστροφή στο μενού", 160, 480);
         
         setImage(img);
     }

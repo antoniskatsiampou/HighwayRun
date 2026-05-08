@@ -3,6 +3,8 @@ import greenfoot.*;
 
 public class Level1 extends World
 {
+    
+    public GreenfootSound bgMusic;
 
     public Level1(){    
         // Δημιουργια επιπεδου 1 και τοποθετηση background 1.
@@ -20,6 +22,9 @@ public class Level1 extends World
         addObject(car, 485, 500);
         
         PlayerCar.isGameOver = false;
+        
+        bgMusic = new GreenfootSound("game_music.wav");
+        bgMusic.playLoop();
         
     }
     

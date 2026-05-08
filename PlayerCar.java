@@ -62,32 +62,38 @@ public class PlayerCar extends Actor
     {
         Actor hitCar = getOneIntersectingObject(TrafficCar.class);
         
-        // Αν εντοπισει επαφη με το "αορατο κουτι"
         if (hitCar != null) 
         {
-            // Επαναφορα των μαθηματικων του σφιχτου Hitbox
             int distanceX = Math.abs(getX() - hitCar.getX());
             int distanceY = Math.abs(getY() - hitCar.getY());
             
-            // Τσεκαρει αν τα αυτοκινητα εχουν οντως χτυπησει (70 pixels οριζοντια, 145 καθετα)
             if (distanceX < 70 && distanceY < 145) 
             {
-                isGameOver = true; // Σηκωνουμε τη σημαια του τελους
+                isGameOver = true; 
                 setRotation(45); 
                 
                 World world = getWorld();
+                
+                // ηχος τρακαρισματος
+                Greenfoot.playSound("crash_sound.wav");
+                
+                // εκρηξη αυτοκινητου
+                world.addObject(new Blast(), getX(), getY());
+                
                 int finalScore = 0;
                 int levelId = 1;
                 
+                // εμφανιση σκορ αναλογα το επιπεδο
                 if (world instanceof Level1) {
                     finalScore = ((Level1)world).score / 10;
                     levelId = 1;
+                    ((Level1)world).bgMusic.stop(); 
                 } else if (world instanceof Level2) {
                     finalScore = ((Level2)world).score / 10;
                     levelId = 2;
+                    ((Level2)world).bgMusic.stop(); 
                 }
                 
-                // Εμφανιζει το μεγαλο μενου ακριβως στο κεντρο της οθονης
                 world.addObject(new GameOverPanel(finalScore, levelId), 420, 325);
             }
         }

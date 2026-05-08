@@ -9,6 +9,8 @@ public class Level2 extends World
     // ρυθμισεις δυσκολιας
     private int spawnInterval = 100; 
     public static int currentSpeed = 5; 
+    
+    public GreenfootSound bgMusic;
 
     public Level2()
     {    
@@ -27,6 +29,9 @@ public class Level2 extends World
         addObject(car, 510, 500); 
         
         PlayerCar.isGameOver = false;
+        
+        bgMusic = new GreenfootSound("game_music.wav");
+        bgMusic.playLoop();
     }
     
     public void act()

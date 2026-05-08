@@ -38,14 +38,14 @@ public class StartMenu extends World
         getBackground().setColor(Color.WHITE);
         getBackground().setFont(new Font("Arial", false, false, 20));
         
-        // αριστερη στηλη (πιο κοντα στο κεντρο)
+        // αριστερη στηλη 
         getBackground().drawString("Αριστερά", 270, 318);
         getBackground().drawImage(leftBtn, 370, 290);
         
         getBackground().drawString("Φρένο", 295, 368);
         getBackground().drawImage(downBtn, 370, 340);
         
-        // δεξια στηλη (απολυτη συμμετρια με την αριστερη)
+        // δεξια στηλη 
         getBackground().drawImage(rightBtn, 430, 290);
         getBackground().drawString("Δεξιά", 480, 318);
         
