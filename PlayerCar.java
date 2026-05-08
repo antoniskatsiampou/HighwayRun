@@ -2,19 +2,24 @@ import greenfoot.*;
 
 public class PlayerCar extends Actor
 {
-    // global ελεγχος isGameOver
     public static boolean isGameOver = false;
+    
+    private GreenfootImage imageNormal;
+    private GreenfootImage imageFlame;
     
     public PlayerCar()
     {
-        GreenfootImage img = getImage();
-        img.scale(img.getWidth() * 75 / 100, img.getHeight() * 75 / 100);
-        setImage(img);
+        imageNormal = new GreenfootImage("Audi.png");
+        imageNormal.scale(imageNormal.getWidth() * 75 / 100, imageNormal.getHeight() * 75 / 100);
+        
+        imageFlame = new GreenfootImage("Audi_flame.png");
+        imageFlame.scale(imageFlame.getWidth() * 75 / 100, imageFlame.getHeight() * 75 / 100);
+        
+        setImage(imageNormal);
     }
     
     public void act()
     {
-        // αν εχουμε τρακαρει, μπλοκαρουμε τον χειρισμο
         if (isGameOver) return;
         
         checkKeys(); 
@@ -29,12 +34,30 @@ public class PlayerCar extends Actor
     {
         int currentX = getX();
         int currentY = getY();
+        
+        // τσεκαρει αν ειναι πατημενο το γκαζι
+        boolean isAccelerating = false;
 
+        // Στροφες
         if (Greenfoot.isKeyDown("left")) currentX -= speed;
         else if (Greenfoot.isKeyDown("right")) currentX += speed;
 
-        if (Greenfoot.isKeyDown("up") && currentY > 300) currentY -= verticalSpeed;
-        else if (Greenfoot.isKeyDown("down") && currentY < 550) currentY += verticalSpeed;
+        // Γκαζι
+        if (Greenfoot.isKeyDown("up")) {
+            if (currentY > 300) currentY -= verticalSpeed;
+            isAccelerating = true; // πατηθηκε το γκαζι, αρα επιταχυνει
+        }
+        // Φρενο
+        else if (Greenfoot.isKeyDown("down")) {
+            if (currentY < 550) currentY += verticalSpeed;
+        }
+
+        //animation
+        if (isAccelerating) {
+            setImage(imageFlame); // Βαζει τη φλογα οσο κρατας το πανω βελακι
+        } else {
+            setImage(imageNormal); // Γυρναει στο κανονικο μολις το αφησεις
+        }
 
         setLocation(currentX, currentY);
     }
@@ -74,16 +97,12 @@ public class PlayerCar extends Actor
                 
                 World world = getWorld();
                 
-                // ηχος τρακαρισματος
                 Greenfoot.playSound("crash_sound.wav");
-                
-                // εκρηξη αυτοκινητου
                 world.addObject(new Blast(), getX(), getY());
                 
                 int finalScore = 0;
                 int levelId = 1;
                 
-                // εμφανιση σκορ αναλογα το επιπεδο
                 if (world instanceof Level1) {
                     finalScore = ((Level1)world).score / 10;
                     levelId = 1;
