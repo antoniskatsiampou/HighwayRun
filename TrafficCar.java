@@ -14,7 +14,7 @@ public class TrafficCar extends Actor
         int randomIndex = Greenfoot.getRandomNumber(6); 
         setImage(carImages[randomIndex]);
         
-        // Σμίκρυνση της εικόνας του αυτοκινήτου της κίνησης στο 75%
+        // σμίκρυνση της εικόνας του αυτοκινήτου της κίνησης στο 75%
         GreenfootImage img = getImage();
         img.scale(img.getWidth() * 75 / 100, img.getHeight() * 75 / 100);
         setImage(img);
@@ -35,7 +35,9 @@ public class TrafficCar extends Actor
 
     public void act()
     {
-     
+
+        if (PlayerCar.isGameOver) return;
+        
         setLocation(getX(), getY() + speed);
         
         // αν βγει απο την οθονη, διαγραφεται

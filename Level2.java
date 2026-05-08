@@ -12,7 +12,7 @@ public class Level2 extends World
 
     public Level2()
     {    
-        // δημιουργια επιπεδου 2 και τοποθετηση background 2 (νυχτα)
+        // δημιουργια επιπεδου 2 και τοποθετηση background 2 
         super(840, 650, 1, false);
         setBackground("background-2-night.png");
         
@@ -25,10 +25,14 @@ public class Level2 extends World
         // δημιουργια του αυτοκινητου του παικτη
         PlayerCar car = new PlayerCar();
         addObject(car, 510, 500); 
+        
+        PlayerCar.isGameOver = false;
     }
     
     public void act()
     {
+        
+        if (PlayerCar.isGameOver) return;
         updateScore();
         increaseDifficulty();
         spawnTrafficSafely();
@@ -70,15 +74,11 @@ public class Level2 extends World
                 centerXPos = 510; // κεντρο δεξιας λωριδας
             }
             
-            // --- ΛΟΓΙΚΗ ΕΛΕΓΧΟΜΕΝΗΣ ΑΝΑΡΧΙΑΣ ---
-            // Μειωνουμε ελαφρως την αποκλιση σε +/- 65 pixels.
-            // Το κεντρο του εχθρικου αυτοκινητου δεν θα κατσει ΠΟΤΕ τελεια 
-            // πανω στην κεντρικη διακεκομμενη γραμμη, αλλα τα πλαινα του 
-            // θα την ακουμπανε η θα την πατανε οριακα!
+            // λογικη αναρχιας αυτοκινητων
+            // εαν πηγαιναν κανονικα στην λωριδα τους, ο παιχτης μπορουσε να κλεψει πηγαινοντας ευθεια με τις μεσαιες γραμμες, η να πηγαινει στις τερμα πλαγειες
             int anarchyOffset = Greenfoot.getRandomNumber(131) - 65;
             
             int finalXPos = centerXPos + anarchyOffset;
-            // ------------------------------------
             
             TrafficCar enemy = new TrafficCar(true); 
             addObject(enemy, finalXPos, -50); 

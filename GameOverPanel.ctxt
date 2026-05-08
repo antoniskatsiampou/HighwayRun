@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=GameOverPanel
+comment1.params=score\ level
+comment1.target=GameOverPanel(int,\ int)
+comment2.params=
+comment2.target=void\ act()
+numComments=3

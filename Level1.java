@@ -19,6 +19,8 @@ public class Level1 extends World
         PlayerCar car = new PlayerCar();
         addObject(car, 485, 500);
         
+        PlayerCar.isGameOver = false;
+        
     }
     
     public int getLeftBoundary(){ 
@@ -41,6 +43,8 @@ public class Level1 extends World
     
     public void act()
     {
+        
+        if (PlayerCar.isGameOver) return;
         
         score++;
         

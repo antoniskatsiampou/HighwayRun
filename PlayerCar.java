@@ -2,11 +2,11 @@ import greenfoot.*;
 
 public class PlayerCar extends Actor
 {
-    
+    // global ελεγχος isGameOver
+    public static boolean isGameOver = false;
     
     public PlayerCar()
     {
-        // σμικρυνση της εικονας του παικτη στο 75%
         GreenfootImage img = getImage();
         img.scale(img.getWidth() * 75 / 100, img.getHeight() * 75 / 100);
         setImage(img);
@@ -14,15 +14,15 @@ public class PlayerCar extends Actor
     
     public void act()
     {
-        checkKeys(); // ελεγχος των πληκτρων που πατιουνται απο τον χρηστη 
-        checkBoundaries(); // ελεγχος οριων ωστε να μην βγαινει απο την ασφαλτο
+        // αν εχουμε τρακαρει, μπλοκαρουμε τον χειρισμο
+        if (isGameOver) return;
+        
+        checkKeys(); 
+        checkBoundaries(); 
         checkCollision();
     }
     
-   // ταχυτητα για τις στροφες
     public int speed = 5; 
-    
-    // ταχυτητα 
     public int verticalSpeed = 3; 
 
     private void checkKeys()
@@ -30,39 +30,21 @@ public class PlayerCar extends Actor
         int currentX = getX();
         int currentY = getY();
 
-        // στροφες δεξια-αριστερα
-        if (Greenfoot.isKeyDown("left")) {
-            currentX -= speed;
-        }
-        else if (Greenfoot.isKeyDown("right")) {
-            currentX += speed;
-        }
+        if (Greenfoot.isKeyDown("left")) currentX -= speed;
+        else if (Greenfoot.isKeyDown("right")) currentX += speed;
 
-        // γκαζι
-        if (Greenfoot.isKeyDown("up")) {
-            if (currentY > 300) { 
-                currentY -= verticalSpeed; 
-            }
-        }
-        // φρενο
-        else if (Greenfoot.isKeyDown("down")) {
-            if (currentY < 550) { 
-                currentY += verticalSpeed; 
-            }
-        }
+        if (Greenfoot.isKeyDown("up") && currentY > 300) currentY -= verticalSpeed;
+        else if (Greenfoot.isKeyDown("down") && currentY < 550) currentY += verticalSpeed;
 
-        // τελικη θεση
         setLocation(currentX, currentY);
     }
     
     private void checkBoundaries()
     {
-        // αναφορα στον τρεχοντα κοσμο
         World world = getWorld(); 
         int leftLimit = 0;
         int rightLimit = 0;
 
-        // ελεγχος σε ποιο level βρισκεται
         if (world instanceof Level1){
             leftLimit = ((Level1)world).getLeftBoundary();
             rightLimit = ((Level1)world).getRightBoundary();
@@ -72,45 +54,41 @@ public class PlayerCar extends Actor
             rightLimit = ((Level2)world).getRightBoundary();
         }
 
-        // εφαρμογη των οριων
-        if (getX() <= leftLimit){
-            setLocation(getX() + 10, getY());
-        }
-        
-        if (getX() >= rightLimit){
-            setLocation(getX() - 10, getY());
-        }
+        if (getX() <= leftLimit) setLocation(getX() + 10, getY());
+        if (getX() >= rightLimit) setLocation(getX() - 10, getY());
     }
 
     private void checkCollision()
     {
-        // εχει μπει καποιο αμαξι στο κουτι των .png εικονων;
         Actor hitCar = getOneIntersectingObject(TrafficCar.class);
         
-        // αν καποιο ακουμπαει
+        // Αν εντοπισει επαφη με το "αορατο κουτι"
         if (hitCar != null) 
         {
-            // μετραει το ποσο απεχουν τα κεντρα των εικονων
+            // Επαναφορα των μαθηματικων του σφιχτου Hitbox
             int distanceX = Math.abs(getX() - hitCar.getX());
             int distanceY = Math.abs(getY() - hitCar.getY());
             
-            
+            // Τσεκαρει αν τα αυτοκινητα εχουν οντως χτυπησει (70 pixels οριζοντια, 145 καθετα)
             if (distanceX < 70 && distanceY < 145) 
             {
+                isGameOver = true; // Σηκωνουμε τη σημαια του τελους
                 setRotation(45); 
                 
                 World world = getWorld();
+                int finalScore = 0;
+                int levelId = 1;
                 
                 if (world instanceof Level1) {
-                    Level1 level1 = (Level1)world;
-                    level1.showText("💥 ΜΠΟΥΜ! ΤΕΛΟΣ ΠΑΙΧΝΙΔΙΟΥ💥", 420, 325);
-                }
-                else if (world instanceof Level2) {
-                    Level2 level2 = (Level2)world;
-                    level2.showText("💥 ΜΠΟΥΜ! ΤΕΛΟΣ ΠΑΙΧΝΙΔΙΟΥ 💥", 420, 325);
+                    finalScore = ((Level1)world).score / 10;
+                    levelId = 1;
+                } else if (world instanceof Level2) {
+                    finalScore = ((Level2)world).score / 10;
+                    levelId = 2;
                 }
                 
-                Greenfoot.stop(); 
+                // Εμφανιζει το μεγαλο μενου ακριβως στο κεντρο της οθονης
+                world.addObject(new GameOverPanel(finalScore, levelId), 420, 325);
             }
         }
     }

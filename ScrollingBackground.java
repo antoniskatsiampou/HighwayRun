@@ -12,6 +12,8 @@ import greenfoot.*;
     
     public void act(){
         
+        if (PlayerCar.isGameOver) return;
+        
         //μετακινηση προς τα κατω
         setLocation(getX(), getY() + speed);
         
